@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Simple Map</title>
+
+  <meta name="viewport" content="width=device-width, height=device-height, target-densitydpi=high-dpi, initial-scale=1.0">
+  <meta charset="utf-8">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <!--hiding the address bar setting colors to periphery elements,-->
+  <meta name="theme-color" content="#4285f4">
+
+  <style>
+  /* Always set the map height explicitly to define the size of the div
+  * element that contains the map. */
+  #map {
+    height: 80%;
+    width: 100%;
+  }
+  /* Optional: Makes the sample page fill the window. */
+  html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  </style>
+</head>
+<body>
+
+  <div id="map"></div>
+
+  <button id="zoomin" style="cursor:pointer;">Zoom In</button>
+  <button id="zoomout" style="cursor:pointer;">Zoom Out</button>
+  <input type="button" value="Go fullscreen" onclick="fullscreen()">
+  <input type="button" value="Cancle fullscreen" onclick="cancle()">
+  <input type="button" value="Here" onclick="getLoc()">
+  <input type="button" value="Fav1" onclick="favorite1()">
+  <input type="button" value="Fav2" onclick="favorite2()">
+
+  <script>
+  var myLatlng;
+  var marker2;
+  var infoWindow;
+  var map;
+  function initMap(){
+    var mapDiv = document.getElementById('map');
+    myLatlng = new google.maps.LatLng(59.326165362, 18.058666432);
+    var options = {
+      zoom: 15,
+      center: myLatlng,
+      tilt: 45,
+      zoomControl: false,
+      mapTypeControl: true,
+      scaleControl: false,
+      streetViewControl: false,
+      rotateControl: false,
+      fullscreenControl: false,
+    }
+
+    //New map
+    map = new google.maps.Map(mapDiv, options);
+    //Add markers
+    var marker1 = new google.maps.Marker({
+      position: myLatlng,
+      map: map,
+      title: 'Marker1'
+    });
+    marker1.setMap(map);
+
+    marker2 = new google.maps.Marker({
+      map: map,
+      draggable: true,
+      animation: google.maps.Animation.DROP,
+      position: myLatlng,
+      title: 'Marker2'
+    });
+
+    marker2.setMap(map);
+    marker2.addListener('click', toggleBounce);
+
+    //zoom in functions
+    google.maps.event.addDomListener(zoomin, 'click', function() {
+      var currentZoomLevel = map.getZoom();
+      if(currentZoomLevel != 9){
+        map.setZoom(currentZoomLevel + 1);}
+      });
+      // zoom out function
+      google.maps.event.addDomListener(zoomout, 'click', function() {
+        var currentZoomLevel = map.getZoom();
+        if(currentZoomLevel != 0){
+          map.setZoom(currentZoomLevel - 1);}
+        });
+
+      }
+
+      //Bouncing marker
+      function toggleBounce() {
+        if (marker2.getAnimation() !== null) {
+          marker2.setAnimation(null);
+        } else {
+          marker2.setAnimation(google.maps.Animation.BOUNCE);
+        }
+      }
+      //Go fullscreen
+      function fullscreen() {
+        if ((document.fullScreenElement && document.fullScreenElement !== null) ||!document.webkitIsFullScreen) {
+          if (document.documentElement.requestFullScreen) {
+            document.documentElement.requestFullScreen();
+          } else if (document.documentElement.webkitRequestFullScreen) {
+            document.documentElement.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
+          }
+        }
+      }
+
+      //Cancle fullcreen
+      function cancle(){
+        if (document.cancelFullScreen) {
+          document.cancelFullScreen();
+        }else if (document.webkitCancelFullScreen) {
+          document.webkitCancelFullScreen();
+        }
+      }
+
+      //Get your location
+      function getLoc(){
+        infoWindow = new google.maps.InfoWindow;
+
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+            var pos = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            };
+
+            infoWindow.setPosition(pos);
+            infoWindow.setContent('Location found.');
+            infoWindow.open(map);
+            map.setCenter(pos);
+          }, function() {
+            handleLocationError(true, infoWindow, map.getCenter());
+          });
+        } else {
+          // Browser doesn't support Geolocation
+          handleLocationError(false, infoWindow, map.getCenter());
+        }
+      }
+
+      //Group member 1 favorite place
+      function favorite1(){
+        infoWindow = new google.maps.InfoWindow;
+
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+            var pos = {
+              lat: 59.236756,
+              lng: 18.224680
+            };
+
+            infoWindow.setPosition(pos);
+            infoWindow.setContent('Location found.');
+            infoWindow.open(map);
+            map.setCenter(pos);
+          }, function() {
+            handleLocationError(true, infoWindow, map.getCenter());
+          });
+        } else {
+          // Browser doesn't support Geolocation
+          handleLocationError(false, infoWindow, map.getCenter());
+        }
+      }
+
+      //Group member 2 favorite place
+      function favorite2(){
+        infoWindow = new google.maps.InfoWindow;
+
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+            var pos = {
+              lat: 59.234768,
+              lng: 17.860046
+            };
+
+            infoWindow.setPosition(pos);
+            infoWindow.setContent('Location found.');
+            infoWindow.open(map);
+            map.setCenter(pos);
+          }, function() {
+            handleLocationError(true, infoWindow, map.getCenter());
+          });
+        } else {
+          // Browser doesn't support Geolocation
+          handleLocationError(false, infoWindow, map.getCenter());
+        }
+      }
+
+      function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+        infoWindow.setPosition(pos);
+        infoWindow.setContent(browserHasGeolocation ?
+          'Error: The Geolocation service failed.' :
+          'Error: Your browser doesn\'t support geolocation.');
+          infoWindow.open(map);
+        }
+
+
+
+
+        </script>
+        <script src="https://maps.googleapis.com/maps/api/js?callback=initMap"
+        async defer></script>
+      </body>
+    </body>
+
+    </html>

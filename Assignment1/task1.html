@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Simple Map</title>
+  <meta name="viewport" content="initial-scale=1.0">
+  <meta charset="utf-8">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+
+  <style>
+  /* Always set the map height explicitly to define the size of the div
+  * element that contains the map. */
+  #map {
+    height: 80%;
+    width: 100%;
+  }
+  /* Optional: Makes the sample page fill the window. */
+  html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  </style>
+</head>
+<body>
+
+  <div id="map"></div>
+
+  <button id="zoomin" style="cursor:pointer;">Zoom In</button>
+  <button id="zoomout" style="cursor:pointer;">Zoom Out</button>
+
+  <script>
+  var myLatlng;
+  var marker2;
+  function initMap(){
+    var mapDiv = document.getElementById('map');
+    myLatlng = new google.maps.LatLng(59.3498092, 18.0684758);
+    var options = {
+      zoom: 15,
+      center: myLatlng,
+      tilt: 45,
+      zoomControl: false,
+      mapTypeControl: true,
+      scaleControl: false,
+      streetViewControl: false,
+      rotateControl: false,
+      fullscreenControl: false,
+    }
+
+    //New map
+    var map = new google.maps.Map(mapDiv, options);
+
+    //Add markers
+    var marker1 = new google.maps.Marker({
+      position: myLatlng,
+      map: map,
+      title: 'Marker1'
+    });
+    marker1.setMap(map);
+
+    marker2 = new google.maps.Marker({
+      map: map,
+      draggable: true,
+      animation: google.maps.Animation.DROP,
+      position: myLatlng,
+      title: 'Marker2'
+    });
+
+    marker2.setMap(map);
+    marker2.addListener('click', toggleBounce);
+
+    //zoom in and zoom out functions
+    google.maps.event.addDomListener(zoomin, 'click', function() {
+      var currentZoomLevel = map.getZoom();
+      if(currentZoomLevel != 9){
+        map.setZoom(currentZoomLevel + 1);}
+      });
+
+      google.maps.event.addDomListener(zoomout, 'click', function() {
+        var currentZoomLevel = map.getZoom();
+        if(currentZoomLevel != 0){
+          map.setZoom(currentZoomLevel - 1);}
+        });
+      }
+
+      //Bouncing marker
+      function toggleBounce() {
+        if (marker2.getAnimation() !== null) {
+          marker2.setAnimation(null);
+        } else {
+          marker2.setAnimation(google.maps.Animation.BOUNCE);
+        }
+      }
+      </script>
+      <script src="https://maps.googleapis.com/maps/api/js?callback=initMap"
+      async defer></script>
+    </body>
+  </body>
+
+  </html>
