@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, user-scalable=yes,
+		initial-scale=1.0" />
+
+	<title>Relaxation iBeacons</title>
+
+	<style>
+	@import 'page.css';
+	</style>
+
+	<script>
+	// Redirect console if running from Evothings Workbench.
+	if (window.hyper) { console.log = hyper.log }
+	</script>
+</head>
+
+<body>
+	<div class="my-page" id="page-default">
+		<div class="my-header">
+			<img class="my-header-image" src="photos/photo-default.jpg" />
+			<img class="my-icon-back" src="icon-back.png" ontouchend="history.back()" />
+		</div>
+		<div class="my-content">
+			<h1>Relaxation iBeacons</h1>
+			<p>Please move within range of the Relaxation iBeacons to find the 3-top rated tourist attraction in Stockholm.</p>
+		</div>
+	</div>
+
+	<div class="my-page" id="page-feet">
+		<div class="my-header">
+			<img class="my-header-image" src="photos/gamla-stan.jpg" />
+			<img class="my-icon-back" src="icon-back.png" ontouchend="history.back()" />
+
+		</div>
+		<div class="my-content">
+			<h1> Gamla Stan (Old Town)</h1>
+			<p>
+				Dating from the 1200s and crammed with must-see sights, attractions, cafés, authentic restaurants,
+				and boutique shops, the area of Gamla Stan (Old Town) is a living-breathing museum in its own right.
+				For many, this is the first stop on their journey of exploration. Certainly there's no better way to
+				instantly absorb the feel of Stockholm and get to grips with the city's culture. Plenty of souvenirs and gifts
+				are available in the Old Town, and you will find yourself transported back to medieval times as you meander
+				through a bewildering labyrinth of tiny, winding streets. Mysterious vaults and ancient frescoes lurk behind
+				picturesque facades. If visiting in winter, be sure to take in the marvellous Julmarknad (Christmas Market),
+				an experience akin to being in a fairy tale. Stockholm Cathedral, the Nobel Museum, and the Royal Palace are all
+				located here and should be high up on any sightseeing itinerary. If visiting the Royal Palace be sure to catch the changing of the guard.
+			</p>
+		</div>
+	</div>
+
+	<div class="my-page" id="page-shoulders">
+		<div class="my-header">
+			<img class="my-header-image" src="photos/djurgarden.jpg" />
+			<img class="my-icon-back" src="icon-back.png" ontouchend="history.back()" />
+		</div>
+		<div class="my-content">
+			<h1>Djurgården</h1>
+				<p>
+					A tranquil oasis in the heart of the city, the island of Djurgården draws tourists and locals alike,
+					particularly during the summer months of long lazy days and short nights. The park forms part of the Royal National City Park,
+					and it's a perfect place for a stroll and picnic as well as being home to several of Stockholm's top museums and other attractions.
+					Scattered about are pleasant cafés, restaurants, snack-bars, and hotels. You can hire bicycles to explore the forest trails or,
+					if you're feeling adventurous, take to the waterways in a canoe. The popular Vasa Museum and Abba the Museum are located here,
+					as is the open-air museum Skansen and Gröna Lund amusement park. A fun way to arrive is by ferry from Gamla Stan or Slussen (both on the T-Bana).
+					Alternatively, jump on a tram from Norrmalmstorg, take the bus, or stroll from the city center (15 minutes).
+					Drop by the Djurgården visitor center for more information.
+				</p>
+		</div>
+	</div>
+
+	<div class="my-page" id="page-face">
+		<div class="my-header">
+			<img class="my-header-image" src="photos/vasa.jpg" />
+			<img class="my-icon-back" src="icon-back.png" ontouchend="history.back()" />
+		</div>
+		<div class="my-content">
+			<h1>Vasa Museum</h1>
+				<p>
+					The incredible Vasa battleship was intended to be the pride of the Swedish Imperial fleet,
+					yet in a forerunner of the Titanic disaster centuries later, sank on its maiden voyage in 1628.
+					An amazing salvage operation took place in 1961, and now you can marvel at this glorious time capsule,
+					95 percent of which is entirely original. The three masts on the roof of the museum are not just a tourist draw;
+					they were reconstructed to the exact height and specifications of the original masts.
+					This is the most visited museum in Sweden, and rightfully so. More than one million people a year come here to
+					enjoy the different exhibitions and watch the movie on the ship's history. Entry is free if you are under 18 years of age.
+				</p>
+		</div>
+	</div>
+
+	<script src="lib/jquery.js"></script>
+	<script src="cordova.js"></script>
+	<script src="app.js"></script>
+</body>
+</html>
