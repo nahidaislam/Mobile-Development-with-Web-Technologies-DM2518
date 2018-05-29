@@ -1,0 +1,32 @@
+<!DOCTYPE HTML>
+<html ng-app="myApp">
+    <head>
+        <meta charset="utf-8">
+        <title>Parkout</title>
+        <meta name="viewport" content="initial-scale=1.0">
+        <meta name="apple-mobile-web-app-capable" content="yes"/>
+        <meta names="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="apple-mobile-web-app-title" content="My Map">
+        <link rel="apple-touch-icon" href="park.png">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        <script src="components/loader.js"></script>
+        <link rel="stylesheet" href="components/loader.css">
+        <link rel="stylesheet" href="css/style.css">
+        <script type="text/javascript"
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB9Q6v7TLhVImwaTdfDMnGeE_l34Dwmw9Y&libraries=places"
+        async defer></script>
+        </script>
+        <script src="https://unpkg.com/ionicons@4.1.2/dist/ionicons.js"></script>
+        <script src="scripts/libs/mqttws/mqttws.js"></script>
+        <script src="scripts/controller.js"></script>
+        <script src="scripts/app.js"></script>
+        <script type="text/javascript">
+            var closestPark;
+        </script>
+    </head>
+    <body style="overflow:hidden;">
+        <ons-sliding-menu swipeable="false" var="slidingMenu" menu-page="menu.html" main-page="map.html" side="left" type="overlay" max-slide-distance="200px">
+        </ons-sliding-menu>
+    </body>
+</html>

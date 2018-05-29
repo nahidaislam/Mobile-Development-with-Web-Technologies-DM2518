@@ -1,0 +1,23 @@
+<ons-page>
+    <ons-toolbar style="position: fixed;overflow: hidden;">
+        <div class="left">
+            <ons-toolbar-button ng-click="slidingMenu.toggleMenu()"><ons-icon icon="bars"></ons-icon></ons-toolbar-button>
+        </div>
+        <div class="center">Park Chat</div>
+        <ons-button class="right" onclick="slidingMenu.setMainPage('map.html')" style="text-align: center;">Back</ons-button>
+    </ons-toolbar>
+
+    <div style="text-align: center">
+        <h1>Say something!</h1>
+        <div id="chat">
+            <div style="height:70vh; overflow: auto;">
+                <ons-list id="messages">
+                </ons-list>
+            </div>
+            <div id="sendBox" style="position: fixed; margin: 0 auto;overflow: hidden;" >
+                <input id="message" type="text" style="height:5vh;width: 32vh; float:left; margin-left:20px;" class="text-input" placeholder="Enter a message" value="">
+                <ons-button id="send" style="height:5vh;width: 10vh; float:right; margin-left: 10px;" onclick="app.sendMessage();">Send</button>
+            </div>
+        </div>
+    </div>
+</ons-page>
