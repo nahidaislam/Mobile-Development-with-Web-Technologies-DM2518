@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, user-scalable=no,
+	shrink-to-fit=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0" />
+
+	<title>Basic Template App</title>
+
+	<style>
+	@import 'ui/css/evothings-app.css';
+	</style>
+
+	<script>
+	// Redirect console.log to Evothings Workbench.
+	if (window.hyper && window.hyper.log) { console.log = hyper.log }
+	</script>
+
+</head>
+
+<body ontouchstart=""><!-- ontouchstart="" enables low-delay CSS transitions. -->
+
+	<header>
+		<button class="back" onclick="history.back()">
+			<img src="ui/images/arrow-left.svg" />
+		</button>
+
+		<img class="logotype" src="ui/images/logo.svg" alt="Evothings" />
+	</header>
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+	<script type="text/javascript">
+	google.charts.load('current', {'packages':['corechart', 'line']});
+	//google.charts.setOnLoadCallback(drawChart);
+	</script>
+
+	<script>
+	// Create an empty sensor object as a global
+	var sensor = {};
+	var sensor2 = {};
+
+	// Where the sensor data is stored
+	var mSensorDataURL = 'http://80.69.174.27:8080/output/';
+	// A subscriber's key (other keys are available at http://80.69.174.27:8080/streams/)
+	sensor.key = "dPjyGN0bx0IDgO000D4lI6leJGK";
+	sensor2.key = "GqXO9z3ae9tODKPPPO2YHxw39By";
+	// A bitmap image describing where the sensor is located
+	// Function to retrieve data, placing it in a "response" object
+	function getJSON()
+	{
+		if (window.cordova)
+		{
+			console.log('Using Apache Cordova HTTP GET function');
+			cordovaHTTP.get(
+				mSensorDataURL + sensor.key + '.json?gt[timestamp]=now-1day&page=1',
+				function (response)
+				{
+					if (response)
+					{
+						sensor.data = JSON.parse(response.data)[0];
+						sensor.fullData = JSON.parse(response.data);
+						//printData();
+						dataToArray();
+						//drawChart();
+					}
+				},
+				function (error)
+				{
+					console.log(JSON.stringify(error));
+				});
+
+				cordovaHTTP.get(
+					mSensorDataURL + sensor2.key + '.json?gt[timestamp]=now-1day&page=1',
+					function (response2)
+					{
+						if (response2)
+						{
+							sensor2.data = JSON.parse(response2.data)[0];
+							sensor2.fullData = JSON.parse(response2.data);
+							//printData();
+							dataToArray();
+							//drawChart();
+						}
+					},
+					function (error)
+					{
+						console.log(JSON.stringify(error));
+					});
+				}
+				else
+				{
+					console.log('Not using Cordova, fallback to AJAX via jquery');
+					$.ajax({
+						url: mSensorDataURL + sensor.key + ".json?gt[timestamp]=now-1day",
+						jsonp: "callback",
+						cache: true,
+						dataType: "jsonp",
+						data:
+						{
+							page: 1
+						},
+						success: function(response)
+						{
+							if (response && response[0])
+							{
+								sensor.data = response[0];
+								sensor.fullData = response;
+								//printData();
+								dataToArray();
+								//drawChart();
+							}
+						}
+					});
+				}
+			}
+
+			function getJSON2()
+			{
+				if (window.cordova)
+				{
+					console.log('Using Apache Cordova HTTP GET function');
+					cordovaHTTP.get(
+						mSensorDataURL + sensor.key + '.json?gt[timestamp]=now-2day&lt[timestamp]=now-1day',
+						function (response)
+						{
+							if (response)
+							{
+								sensor.data = JSON.parse(response.data)[0];
+								sensor.fullData = JSON.parse(response.data);
+								//printData();
+								dataToArray();
+								//drawChart();
+							}
+						},
+						function (error)
+						{
+							console.log(JSON.stringify(error));
+						});
+
+						cordovaHTTP.get(
+							mSensorDataURL + sensor2.key + '.json?gt[timestamp]=now-2day&lt[timestamp]=now-1day',
+							function (response2)
+							{
+								if (response2)
+								{
+									sensor2.data = JSON.parse(response2.data)[0];
+									sensor2.fullData = JSON.parse(response2.data);
+									//printData();
+									dataToArray();
+									//drawChart();
+								}
+							},
+							function (error)
+							{
+								console.log(JSON.stringify(error));
+							});
+						}
+						else
+						{
+							console.log('Not using Cordova, fallback to AJAX via jquery');
+							$.ajax({
+								url: mSensorDataURL + sensor.key + ".json?gt[timestamp]=now-1day",
+								jsonp: "callback",
+								cache: true,
+								dataType: "jsonp",
+								data:
+								{
+									page: 1
+								},
+								success: function(response)
+								{
+									if (response && response[0])
+									{
+										sensor.data = response[0];
+										sensor.fullData = response;
+										//printData();
+										dataToArray();
+										//drawChart();
+									}
+								}
+							});
+						}
+					}
+
+
+			function dataToArray()
+			{
+				//var Array = [];
+				var timeArray = [];
+				var tempArray = [];
+				var tempArray2= [];
+				var i;
+				for (i=0; i< 20; i++){
+					//Array.push([sensor.fullData[i].timestamp,sensor.fullData[i].t]);
+					timeArray.push(sensor.fullData[i].timestamp);
+					tempArray.push(parseInt(sensor.fullData[i].t));
+					tempArray2.push(parseInt(sensor2.fullData[i].t));
+				}
+				//document.getElementById("demo").innerHTML = timeArray[3] + "," + tempArray[3];
+				//document.getElementById("demo").innerHTML = Array;
+				var arrayTable=[['Date','Temperature', 'Temperature2']];
+				for (r=0; r<20; r++){
+					arrayTable.push([timeArray[r],tempArray[r],tempArray2[r]]);
+				}
+				var data = google.visualization.arrayToDataTable(arrayTable);
+				var options = {
+					//	title: 'Company Performance',
+					curveType: 'function',
+					legend: { position: 'bottom' }
+				};
+				var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+				chart.draw(data, options);
+			}
+
+
+			function printData()
+			{
+				if (sensor && sensor.data)
+				{
+					// Display the info.
+					html = '<h1>Sensor Data</h1>'
+					+ '<br /><div id="time">Time  ' + sensor.data.timestamp + '</div>'
+					+ '<div id="hum">Humidity ' + sensor.data.h + ' % (rel)</div>'
+					+ '<div id="temp">Temperature ' + sensor.data.t + ' celcius</div>'
+				}
+				else
+				{
+					html = '<h1>Sensor Data</h1>'
+					+ '<br />Sorry, sensor data not available right now :(</br>'
+				}
+				document.getElementById("printHere").innerHTML= html;
+			}
+			</script>
+
+			<button onClick="getJSON();">Today</button>
+			<button onClick="getJSON2();">Yesterday</button>
+			<p id="demo"></p>
+
+			<div id="curve_chart" style="width: 900px; height: 300px"></div>
+			<div id="printHere"></div>
+
+			<script src="cordova.js"></script>
+			<script src="libs/evothings/evothings.js"></script>
+			<script src="libs/evothings/ui/ui.js"></script>
+
+		</body>
+
+		</html>
